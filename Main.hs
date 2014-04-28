@@ -20,7 +20,7 @@ main = do sock <- bracketOnError
                                   return sock
                      )
           packages <- readProcess "ghc-pkg" ["list", "--simple-output"] []
-          let response = "HTTP/1.1 200 OK\r\n\r\nWelcome to Haskell Cloud! The following packages are pre-installed:\n\n" ++ unlines (words packages)
+          let response = "HTTP/1.1 200 OK\r\n\r\nWelcome to Haiaskell Cloud! The following packages are pre-installed:\n\n" ++ unlines (words packages)
           forever $ do (handle,_,_) <- Network.accept sock
                        read <- liftM (any (null . dropWhile isSpace) . lines) $ hGetContents handle
                        when read $ void $ tryIOError $ hPutStr handle response
