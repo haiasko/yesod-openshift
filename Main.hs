@@ -26,4 +26,4 @@ main = do
                                      settingsHost = host }
     runSettings settings HelloWorld
 -}
-    warp port HelloWorld
+    warp (read port) HelloWorld
