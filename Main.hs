@@ -21,6 +21,9 @@ main :: IO ()
 main = do 
     [host,port] <- getArgs
     putStrLn $ "Listening on host " ++ host ++ " port " ++ show port
-    let settings = defaultSettings { settingsPort = port,
+
+{-    let settings = defaultSettings { settingsPort = port,
                                      settingsHost = host }
     runSettings settings HelloWorld
+-}
+    warp port HelloWorld
