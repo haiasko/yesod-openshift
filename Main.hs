@@ -19,11 +19,15 @@ getHomeR = defaultLayout [whamlet|Hello World! :)|]
 
 main :: IO ()
 main = do 
+{-
+
     [host,port] <- getArgs
     putStrLn $ "Listening on host " ++ host ++ " port " ++ show port
 
-{-    let settings = defaultSettings { settingsPort = port,
+    let settings = defaultSettings { settingsPort = port,
                                      settingsHost = host }
     runSettings settings HelloWorld
+
 -}
-    warp (read port) HelloWorld
+
+    defaultMain (fromArgs parseExtra) makeApplication
