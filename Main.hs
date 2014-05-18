@@ -2,6 +2,7 @@
 {-# LANGUAGE TemplateHaskell       #-}
 {-# LANGUAGE TypeFamilies          #-}
 
+import System.Environment
 import Network.Wai.Handler.Warp
 import           Yesod
 
