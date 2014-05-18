@@ -1,6 +1,8 @@
 {-# LANGUAGE QuasiQuotes           #-}
 {-# LANGUAGE TemplateHaskell       #-}
 {-# LANGUAGE TypeFamilies          #-}
+
+import Network.Wai.Handler.Warp
 import           Yesod
 
 data HelloWorld = HelloWorld
