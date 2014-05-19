@@ -24,7 +24,7 @@ instance Yesod HelloWorld
 getHomeR :: Handler Html
 getHomeR = do
 -- NOTE: exception handling missing here 
-    packages <- readProcess "ghc-pkg" ["list", "--simple-output"] []
+    packages <- liftIO $ readProcess "ghc-pkg" ["list", "--simple-output"] []
     defaultLayout [whamlet|
 Welcome to Haskell Cloud! The following packages are pre-installed:
 <br> 
