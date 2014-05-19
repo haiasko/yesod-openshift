@@ -28,7 +28,6 @@ getHomeR = do
     packages <- liftIO $ readProcess "ghc-pkg" ["list", "--simple-output"] []
     defaultLayout [whamlet|
 Welcome to Haskell Cloud! The following packages are pre-installed:
-<br> 
 <ul>
   $forall pkg <- sort $ words packages
     <li>#{pkg}
