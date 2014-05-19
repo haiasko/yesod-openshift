@@ -2,7 +2,6 @@
 {-# LANGUAGE TemplateHaskell       #-}
 {-# LANGUAGE TypeFamilies          #-}
 
-import MyWarp
 import           Yesod
 
 data HelloWorld = HelloWorld
@@ -17,4 +16,15 @@ getHomeR :: Handler Html
 getHomeR = defaultLayout [whamlet|Hello World! :)|]
 
 main :: IO ()
-main = myWarp HelloWorld
+main = myWarp HelloWorld where
+  myWarp app = do
+    [host,port] <- getArgs
+    hSetBuffering stdout LineBuffering
+    putStrLn $ "Listening on host " ++ host ++ " port " ++ port
+
+-- Use next line instead for warp 2.1.0+
+--    let settings = setPort (read port) $ setHost host defaultSettings
+    let settings = defaultSettings { settingsPort = (read port),
+                                     settingsHost = Host host }
+    appx <- toWaiApp app
+    runSettings settings appx
