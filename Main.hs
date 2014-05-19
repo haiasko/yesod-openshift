@@ -3,8 +3,14 @@
 {-# LANGUAGE TypeFamilies          #-}
 
 import System.Environment(getArgs)
-import System.IO(hSetBuffering)
-import Network.Wai.Handler.Warp(defaultSettings, settingsPort, settingsHost)
+import System.IO(hSetBuffering, stdout, LineBuffering)
+import Network.Wai.Handler.Warp(
+   defaultSettings,
+   settingsPort,
+   settingsHost,
+   Host,
+   runSettings
+   )
 import Yesod
 
 data HelloWorld = HelloWorld
