@@ -4,6 +4,7 @@
 
 import System.Environment(getArgs)
 import System.IO(hSetBuffering, stdout, BufferMode(..))
+import System.Process(readProcess)
 import Network.Wai.Handler.Warp(
    defaultSettings,
    settingsPort,  settingsHost,
@@ -21,7 +22,11 @@ mkYesod "HelloWorld" [parseRoutes|
 instance Yesod HelloWorld
 
 getHomeR :: Handler Html
-getHomeR = defaultLayout [whamlet|Hello World! :)|]
+getHomeR = defaultLayout [whamlet|
+Welcome to Haskell Cloud! The following packages are pre-installed:
+$with packages <- readProcess "ghc-pkg" ["list", "--simple-output"] []
+  <br> #{unlines (words packages)} 
+|]
 
 main :: IO ()
 main = myWarp HelloWorld where
@@ -30,7 +35,7 @@ main = myWarp HelloWorld where
     hSetBuffering stdout LineBuffering
     putStrLn $ "Listening on host " ++ host ++ " port " ++ port
 
--- Use next line instead for warp 2.1.0+
+-- Use next line instead for warp 2.1.0+ (must fix the import too)
 --    let settings = setPort (read port) $ setHost host defaultSettings
     let settings = defaultSettings { settingsPort = (read port),
                                      settingsHost = Host host }
