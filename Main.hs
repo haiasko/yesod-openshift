@@ -5,7 +5,6 @@
 import System.Environment(getArgs)
 import System.IO(hSetBuffering, stdout, BufferMode(..))
 import System.Process(readProcess)
-import Control.Monad(liftM)
 import Network.Wai.Handler.Warp(
    defaultSettings,
    settingsPort,  settingsHost,
@@ -27,7 +26,7 @@ getHomeR = defaultLayout [whamlet|
 Welcome to Haskell Cloud! The following packages are pre-installed:
 <br> #{unlines packages} 
 |] where
-   packages = liftM $ readProcess "ghc-pkg" ["list", "--simple-output"] []
+   packages = lift $ readProcess "ghc-pkg" ["list", "--simple-output"] []
 
 main :: IO ()
 main = myWarp HelloWorld where
