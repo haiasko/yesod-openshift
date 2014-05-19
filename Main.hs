@@ -22,11 +22,15 @@ mkYesod "HelloWorld" [parseRoutes|
 instance Yesod HelloWorld
 
 getHomeR :: Handler Html
-getHomeR = do 
-    packages <- liftIO $ readProcess "ghc-pkg" ["list", "--simple-output"] []
+getHomeR = do
+-- NOTE: exception handling missing here 
+    packages <- readProcess "ghc-pkg" ["list", "--simple-output"] []
     defaultLayout [whamlet|
 Welcome to Haskell Cloud! The following packages are pre-installed:
-<br> #{packages} 
+<br> 
+<ul>
+  $forall pkg <- words packages
+    <li>#{pkg}
 |]
 
 main :: IO ()
@@ -37,7 +41,7 @@ main = myWarp HelloWorld where
     putStrLn $ "Listening on host " ++ host ++ " port " ++ port
 
 -- Use next line instead for warp 2.1.0+ (must fix the import too)
---    let settings = setPort (read port) $ setHost host defaultSettings
+--  let settings = setPort (read port) $ setHost host defaultSettings
     let settings = defaultSettings { settingsPort = (read port),
                                      settingsHost = Host host }
     appx <- toWaiApp app
