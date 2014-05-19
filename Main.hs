@@ -2,6 +2,7 @@
 {-# LANGUAGE TemplateHaskell       #-}
 {-# LANGUAGE TypeFamilies          #-}
 
+import MyWarp
 import           Yesod
 
 data HelloWorld = HelloWorld
@@ -16,4 +17,4 @@ getHomeR :: Handler Html
 getHomeR = defaultLayout [whamlet|Hello World! :)|]
 
 main :: IO ()
-main = warpEnv HelloWorld
+main = myWarp HelloWorld
