@@ -3,12 +3,11 @@
 {-# LANGUAGE TypeFamilies          #-}
 
 import System.Environment(getArgs)
-import System.IO(hSetBuffering, stdout, LineBuffering)
+import System.IO(hSetBuffering, stdout, BufferMode(..))
 import Network.Wai.Handler.Warp(
    defaultSettings,
-   settingsPort,
-   settingsHost,
-   Host,
+   settingsPort,  settingsHost,
+   HostPreference(..),
    runSettings
    )
 import Yesod
