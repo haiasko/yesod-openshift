@@ -29,7 +29,7 @@ getHomeR = do
 Welcome to Haskell Cloud! The following packages are pre-installed:
 <br> 
 <ul>
-  $forall pkg <- words packages
+  $forall pkg <- sort $ words packages
     <li>#{pkg}
 |]
 
