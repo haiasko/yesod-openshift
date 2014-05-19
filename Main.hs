@@ -5,6 +5,7 @@
 import System.Environment(getArgs)
 import System.IO(hSetBuffering, stdout, BufferMode(..))
 import System.Process(readProcess)
+import Control.Monad(liftM)
 import Network.Wai.Handler.Warp(
    defaultSettings,
    settingsPort,  settingsHost,
