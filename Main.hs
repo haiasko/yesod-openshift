@@ -26,7 +26,7 @@ getHomeR = defaultLayout [whamlet|
 Welcome to Haskell Cloud! The following packages are pre-installed:
 <br> #{unlines packages} 
 |] where
-   packages = lift $ readProcess "ghc-pkg" ["list", "--simple-output"] []
+   packages <- readProcess "ghc-pkg" ["list", "--simple-output"] []
 
 main :: IO ()
 main = myWarp HelloWorld where
