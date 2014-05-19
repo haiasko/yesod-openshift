@@ -24,9 +24,8 @@ instance Yesod HelloWorld
 getHomeR :: Handler Html
 getHomeR = defaultLayout [whamlet|
 Welcome to Haskell Cloud! The following packages are pre-installed:
-<br> #{liftIO packages} 
-|] where
-   packages = readProcess "ghc-pkg" ["list", "--simple-output"] []
+<br> #{packages} 
+|]
 
 main :: IO ()
 main = myWarp HelloWorld where
@@ -34,6 +33,8 @@ main = myWarp HelloWorld where
     [host,port] <- getArgs
     hSetBuffering stdout LineBuffering
     putStrLn $ "Listening on host " ++ host ++ " port " ++ port
+
+    packages <- readProcess "ghc-pkg" ["list", "--simple-output"] []
 
 -- Use next line instead for warp 2.1.0+ (must fix the import too)
 --    let settings = setPort (read port) $ setHost host defaultSettings
