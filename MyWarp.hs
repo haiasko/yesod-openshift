@@ -8,7 +8,7 @@ import System.Environment
 
 import Network.Wai.Handler.Warp
 
-import Yesod.Dispatch
+import Yesod
 
 myWarp app = do
     [host,port] <- getArgs
