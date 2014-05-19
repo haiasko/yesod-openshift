@@ -24,8 +24,9 @@ instance Yesod HelloWorld
 getHomeR :: Handler Html
 getHomeR = defaultLayout [whamlet|
 Welcome to Haskell Cloud! The following packages are pre-installed:
-<br> #{unlines $ words $ liftIO $ readProcess "ghc-pkg" ["list", "--simple-output"] []} 
-|]
+<br> #{packages} 
+|] where
+   packages = unlines $ words $ liftIO $ readProcess "ghc-pkg" ["list", "--simple-output"] []
 
 main :: IO ()
 main = myWarp HelloWorld where
