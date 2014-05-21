@@ -7,7 +7,7 @@ import System.Environment(getArgs)
 import System.IO(hSetBuffering, stdout, BufferMode(..))
 import System.Process(readProcess)
 import Data.List(sort)
---import Data.Conduit.Network(HostPreference(..))
+import Data.Conduit.Network
 import Network.Wai.Handler.Warp
 import Yesod
 
