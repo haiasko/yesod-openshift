@@ -1,22 +1,49 @@
-import Control.Monad
-import Data.Char
-import System.IO
-import System.IO.Error
-import Network
-import Network.BSD
-import Network.Socket
-import System.Environment
-import System.Process
+{-# LANGUAGE QuasiQuotes           #-}
+{-# LANGUAGE TemplateHaskell       #-}
+{-# LANGUAGE TypeFamilies          #-}
 
-main = do [host,port] <- getArgs
-          sock <- socket AF_INET Stream defaultProtocol
-          setSocketOption sock ReuseAddr 1
-          inet <- inet_addr host
-          bind sock $ SockAddrInet (fromInteger $ read port) inet
-          listen sock maxListenQueue
-          packages <- readProcess "ghc-pkg" ["list", "--simple-output"] []
-          let response = "HTTP/1.1 200 OK\r\n\r\nWelcome to Haskell Cloud! The following packages are pre-installed:\n\n" ++ unlines (words packages)
-          forever $ do (handle,_,_) <- Network.accept sock
-                       read <- liftM (any (null . dropWhile isSpace) . lines) $ hGetContents handle
-                       when read $ void $ tryIOError $ hPutStr handle response
-                       hClose handle
+import System.Environment(getArgs)
+import System.IO(hSetBuffering, stdout, BufferMode(..))
+import System.Process(readProcess)
+import Data.List(sort)
+import Network.Wai.Handler.Warp(
+   defaultSettings,
+   settingsPort,  settingsHost,
+   HostPreference(..),
+   runSettings
+   )
+import Yesod
+
+data HelloWorld = HelloWorld
+
+mkYesod "HelloWorld" [parseRoutes|
+/ HomeR GET
+|]
+
+instance Yesod HelloWorld
+
+getHomeR :: Handler Html
+getHomeR = do
+-- NOTE: exception handling missing here 
+    packages <- liftIO $ readProcess "ghc-pkg" ["list", "--simple-output"] []
+    defaultLayout [whamlet|
+Welcome to Haskell Cloud! The following packages are pre-installed:
+<ul>
+  $forall pkg <- sort $ words packages
+    <li>#{pkg}
+|]
+
+main :: IO ()
+main = myWarp HelloWorld where
+  myWarp app = do
+    [host,port] <- getArgs
+    hSetBuffering stdout LineBuffering
+    putStrLn $ "Listening on host " ++ host ++ " port " ++ port
+
+-- Use next line instead for warp 2.1.0+ (must fix the import too)
+--  let settings = setPort (read port) $ setHost host defaultSettings
+    let settings = defaultSettings { settingsPort = (read port),
+                                     settingsHost = Host host }
+    appx <- toWaiApp app
+    runSettings settings appx
+
