@@ -38,7 +38,7 @@ main = myWarp HelloWorld where
     putStrLn $ "Listening on host " ++ host ++ " port " ++ port
 
 -- Use next line instead for warp 2.1.0+ (must fix the import too)
-    let settings = setPort (read port) $ setHost (host::IsString) defaultSettings
+    let settings = setPort (read port) $ setHost (host::String) defaultSettings
 --    let settings = defaultSettings { settingsPort = (read port),
 --                                     settingsHost = Host host }
     appx <- toWaiApp app
