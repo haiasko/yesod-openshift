@@ -8,8 +8,9 @@ import System.Process(readProcess)
 import Data.List(sort)
 import Network.Wai.Handler.Warp(
    defaultSettings,
-   settingsPort,  settingsHost,
-   HostPreference(..),
+   setPort, setHost,
+--   settingsPort,  settingsHost,
+--   HostPreference(..),
    runSettings
    )
 import Yesod
@@ -41,9 +42,9 @@ main = myWarp HelloWorld where
     putStrLn $ "Listening on host " ++ host ++ " port " ++ port
 
 -- Use next line instead for warp 2.1.0+ (must fix the import too)
---  let settings = setPort (read port) $ setHost host defaultSettings
-    let settings = defaultSettings { settingsPort = (read port),
-                                     settingsHost = Host host }
+   let settings = setPort (read port) $ setHost host defaultSettings
+--    let settings = defaultSettings { settingsPort = (read port),
+--                                     settingsHost = Host host }
     appx <- toWaiApp app
     runSettings settings appx
 
