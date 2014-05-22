@@ -1,7 +1,7 @@
 Haskell Cloud
 =============
 
-Haskell Cloud is an [OpenShift](https://www.openshift.com/) cartridge for deploying Haskell on Red Hat's PaaS cloud. It includes:
+[Haskell Cloud](https://github.com/accursoft/Haskell-Cloud) is an [OpenShift](https://www.openshift.com/) cartridge for deploying Haskell on Red Hat's PaaS cloud. It includes:
 
 - GHC 7.6.3
 - cabal-install

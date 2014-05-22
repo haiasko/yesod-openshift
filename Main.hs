@@ -24,7 +24,7 @@ getHomeR = do
 -- NOTE: exception handling missing here 
     packages <- liftIO $ readProcess "ghc-pkg" ["list", "--simple-output"] []
     defaultLayout [whamlet|
-Welcome to Haskell Cloud! The following packages are pre-installed:
+Welcome to <a href=https://github.com/accursoft/Haskell-Cloud">Haskell Cloud</a>! The following packages are pre-installed:
 <ul>
   $forall pkg <- sort $ words packages
     <li>#{pkg}
