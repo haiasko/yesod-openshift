@@ -5,5 +5,5 @@ build-type:    Simple
 
 executable server
   main-is:       Main.hs
-  build-depends: base, network, process, yesod, warp, conduit-extra
+  build-depends: base, network, process, yesod, warp
 

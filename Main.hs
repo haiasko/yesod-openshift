@@ -7,8 +7,7 @@ import System.Environment(getArgs)
 import System.IO(hSetBuffering, stdout, BufferMode(..))
 import System.Process(readProcess)
 import Data.List(sort)
-import Data.String
---import Data.Conduit.Network
+import Data.String(fromString)
 import Network.Wai.Handler.Warp
 import Yesod
 
@@ -38,8 +37,8 @@ main = myWarp HelloWorld where
     hSetBuffering stdout LineBuffering
     putStrLn $ "Listening on host " ++ host ++ " port " ++ port
 
--- Use next line instead for warp 2.1.0+ (must fix the import too)
     let settings = setPort (read port) $ setHost (fromString host) defaultSettings
+-- for versions of warp before 2.1.0 (which export the Host constructor)
 --    let settings = defaultSettings { settingsPort = (read port),
 --                                     settingsHost = Host host }
     appx <- toWaiApp app
